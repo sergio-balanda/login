@@ -1,8 +1,9 @@
 <?php
 
-namespace login\Http\Middleware;
-use Illuminate\Contracts\Auth\Guard;
+namespace log\Http\Middleware;
+
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
 use Session;
 use redirect;
 
@@ -22,12 +23,11 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
+    {   
         if($this->auth->user()->type != 'admin'){
            // Session::flash('message-error','No autorizado');
             return redirect()->to('/home');
         }
-        
         return $next($request);
     }
 }

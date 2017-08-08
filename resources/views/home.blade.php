@@ -1,24 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-
-<!-- @if(Auth::user()->type == 'admin')
-     @include('admin.index')
-@else-->
-<!--@endif -->
+<br>
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Panel de control</div>
-
-                <div class="panel-body">
-                    ESTAS LOGEADO
-                </div>
-            </div>
+        <div class="col l12 s12">
+            <blockquote>
+              <h4>Usuario logueado</h4>
+              <p class="flow-text">panel de admistracion</p>
+            </blockquote>
         </div>
     </div>
-    @include('contacto.contacto')
-
-
+    @include('contacto.mensaje')
+</div> 
 @endsection

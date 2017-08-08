@@ -1,11 +1,11 @@
 <?php
 
-namespace login\Http\Controllers;
+namespace log\Http\Controllers;
 
 use Illuminate\Http\Request;
-use login\user;
 use Auth;
-
+use log\User;
+use Redirect;
 
 class HomeController extends Controller
 {
@@ -16,8 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-       //$this->middleware('auth');
-       $this->middleware('auth', ['only' => ['index']]); 
+       $this->middleware('auth');
     }
 
     /**
@@ -27,7 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $admins=User::All();
-        return view('home',compact('admins'));
+        $tipo=Auth::user()->type;
+        if($tipo != 'admin')
+        {
+        return view('home');
+        }
+        else{
+           return Redirect::to('admin'); 
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace login;
+namespace log;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

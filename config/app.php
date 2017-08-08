@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Login'),
+    'name' => env('APP_NAME', 'log'),
 
     /*
     |--------------------------------------------------------------------------
@@ -172,11 +172,11 @@ return [
         /*
          * Application Service Providers...
          */
-        login\Providers\AppServiceProvider::class,
-        login\Providers\AuthServiceProvider::class,
-        // login\Providers\BroadcastServiceProvider::class,
-        login\Providers\EventServiceProvider::class,
-        login\Providers\RouteServiceProvider::class,
+        log\Providers\AppServiceProvider::class,
+        log\Providers\AuthServiceProvider::class,
+        // log\Providers\BroadcastServiceProvider::class,
+        log\Providers\EventServiceProvider::class,
+        log\Providers\RouteServiceProvider::class,
 
     ],
 

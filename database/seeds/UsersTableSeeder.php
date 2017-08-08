@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use login\User;
+use log\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,8 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        
-        $data = array(
+         $data = array(
 			[
 				'name' 		=> 'Sejo', 
 				'email' 	=> 'sergio@mail.com', 
@@ -33,4 +32,5 @@ class UsersTableSeeder extends Seeder
 		);
 		User::insert($data);
     }
+    
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace login\Providers;
+namespace log\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'login\Events\Event' => [
-            'login\Listeners\EventListener',
+        'log\Events\Event' => [
+            'log\Listeners\EventListener',
         ],
     ];
 

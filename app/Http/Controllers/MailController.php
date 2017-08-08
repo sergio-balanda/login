@@ -1,6 +1,6 @@
 <?php
 
-namespace login\Http\Controllers;
+namespace log\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mail;

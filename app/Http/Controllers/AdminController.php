@@ -1,39 +1,58 @@
 <?php
 
-namespace login\Http\Controllers;
+namespace log\Http\Controllers;
 
 use Illuminate\Http\Request;
-use login\User;
+use log\User;
 use Auth;
 use Redirect;
+use DB;
+use Session;
+use log\Http\Requests\AdminFormRequest;
 
 class AdminController extends Controller
-{
-   
-     public function __construct()
+{   
+    
+    public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin');
-
+       $this->middleware('auth');
+       $this->middleware('admin');
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //igualmete correjido con middleware admin
         $tipo=Auth::user()->type;
         if($tipo == 'admin')
         {
-            $admins=User::All();
-            return view('admin.index',compact('admins'));
+            
+            $query=trim($request->get('searchText'));
+            $usuarios=DB::table('users as u')
+            ->select('u.id','u.name','u.email','u.type')
+            ->where('u.name','LIKE', '%'.$query.'%')
+            ->orwhere('u.email','LIKE','%'.$query.'%')
+            ->orderBy('u.name','asc')    
+            ->paginate(4);
+             
+           
+            
+            $ordenar=trim($request->get('ordenar'));
+            if($ordenar=='desc'){
+             $ordenar=DB::table('users as u')
+                ->orderBy('u.email','desc'); 
+            }else if($ordenar=='asc'){
+                $ordenar=DB::table('users as u')
+                ->orderBy('u.email','asc'); 
+            }
+            
+            return view('usuario.index',["usuarios"=>$usuarios,"searchText"=>$query]);
         }
         else{
             return back();
         }
-       
     }
 
     /**
@@ -43,7 +62,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.forms.create');
+        return view('usuario.forms.create');
     }
 
     /**
@@ -52,7 +71,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminFormRequest $request)
     {
         User::create([
             'name'=>$request['name'],
@@ -60,6 +79,7 @@ class AdminController extends Controller
             'password'=>$request['password'],
             'type'=>$request['type'],            
         ]);
+        Session::flash('message','Usuario Creado Correctamente');
         return Redirect::to('admin');
     }
 
@@ -81,17 +101,9 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {  
-    
-        $tipo=Auth::user()->type;
-        if($tipo == 'admin')
-        {
-            $admin=User::find($id);
-            return view('admin.forms.edit',['admin'=>$admin]);
-        }else
-        {
-            return back();
-        }
+    {
+        $admin=User::find($id);
+        return view('usuario.forms.edit',['admin'=>$admin]);
     }
 
     /**
@@ -101,12 +113,12 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminFormRequest $request, $id)
     {
         $admin = User::find($id);
         $admin->fill($request->all());
         $admin->save();
-        
+        Session::flash('message','Usuario Actualizado Correctamente');
         return Redirect::to('admin');
     }
 
@@ -119,6 +131,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
+        Session::flash('message','Usuario Eliminado Correctamente');
         return back();
     }
 }
